@@ -1,5 +1,9 @@
 package com.project.neurohelp.repositories.user;
 
+import com.project.neurohelp.platform.constants.Roles;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 public class UserEntity {
 
     private String id;
