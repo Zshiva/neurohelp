@@ -1,1 +1,21 @@
-spring.application.name=neurohelp
+spring:
+  application:
+    name: neurohelp
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/neurohelp
+    username: postgres
+    password: shiva
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+server:
+  port: 8082
+
