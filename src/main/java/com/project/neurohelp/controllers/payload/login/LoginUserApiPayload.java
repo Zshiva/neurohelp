@@ -1,7 +1,6 @@
-package com.project.neurohelp.controllers.payload;
+package com.project.neurohelp.controllers.payload.login;
 
 import io.soabase.recordbuilder.core.RecordBuilder;
-import org.springframework.context.annotation.Bean;
 
 @RecordBuilder
 
