@@ -22,20 +22,20 @@ public class UserEntity {
     @UuidGenerator
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Roles roles = Roles.USER;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String address;
 
     @Column(nullable = false, unique = true)
@@ -44,6 +44,8 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+    public UserEntity() {
+    }
 
     public UserEntity(String name, String email, String password, Roles roles, String address, String citizenShip, Status status) {
         this.name = name;
