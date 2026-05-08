@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -44,6 +45,12 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
+    @Column(name = "password_reset_otp_hash")
+    private String passwordResetOtpHash;
+
+    @Column(name = "password_reset_otp_expires_at")
+    private Instant passwordResetOtpExpiresAt;
     public UserEntity() {
     }
 
@@ -113,5 +120,21 @@ public class UserEntity {
     }
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getPasswordResetOtpHash() {
+        return passwordResetOtpHash;
+    }
+
+    public void setPasswordResetOtpHash(String passwordResetOtpHash) {
+        this.passwordResetOtpHash = passwordResetOtpHash;
+    }
+
+    public Instant getPasswordResetOtpExpiresAt() {
+        return passwordResetOtpExpiresAt;
+    }
+
+    public void setPasswordResetOtpExpiresAt(Instant passwordResetOtpExpiresAt) {
+        this.passwordResetOtpExpiresAt = passwordResetOtpExpiresAt;
     }
 }
