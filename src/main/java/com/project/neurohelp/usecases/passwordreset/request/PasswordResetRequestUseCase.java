@@ -29,17 +29,14 @@ public class PasswordResetRequestUseCase implements UseCase<PasswordResetRequest
         UserEntity user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new NeuroHelpException(NeuroHelpErrorMessage.USER_NOT_FOUND));
 
-        // NOTE: in a real system you would send this OTP via email/SMS.
-        // For learning/dev we generate + store only hashed OTP.
+        // NOTE: in a real system, would send this OTP via email/SMS.
+        // For learning/dev  generate + store only hashed OTP.
         String otp = OtpUtil.generateNumericOtp(6);
         String otpHash = OtpUtil.sha256WithSalt(otp, user.getId().toString());
 
         user.setPasswordResetOtpHash(otpHash);
         user.setPasswordResetOtpExpiresAt(Instant.now().plus(OTP_TTL));
         userRepository.save(user);
-
-        // Dev-friendly response: returning OTP string helps you test quickly.
-        // For production, DO NOT return OTP in API response.
         return Optional.of(new PasswordResetRequestUseCaseResponse("Password reset OTP generated: " + otp));
     }
 
