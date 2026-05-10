@@ -41,6 +41,12 @@ public class PasswordResetConfirmUseCase implements UseCase<PasswordResetConfirm
             throw new NeuroHelpException(NeuroHelpErrorMessage.OTP_INVALID_OR_EXPIRED);
         }
 
+        // Business rule: do not allow setting the same password as current one.
+        // (Currently passwords are stored in plaintext in this project.)
+        if (user.getPassword() != null && user.getPassword().equals(request.newPassword())) {
+            throw new NeuroHelpException(NeuroHelpErrorMessage.NEW_PASSWORD_MUST_BE_DIFFERENT);
+        }
+
         user.setPassword(request.newPassword());
         user.setPasswordResetOtpHash(null);
         user.setPasswordResetOtpExpiresAt(null);
