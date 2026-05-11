@@ -34,4 +34,11 @@ build/
 .vscode/
 
 ### ai-service
-ai-service/.venv
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+.env.*
+venv/
