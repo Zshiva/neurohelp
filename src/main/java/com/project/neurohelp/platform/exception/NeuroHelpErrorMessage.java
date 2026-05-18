@@ -14,7 +14,13 @@ public enum NeuroHelpErrorMessage {
     OTP_IS_REQUIRED("NH009", "OTP is required"),
     OTP_INVALID_OR_EXPIRED("NH010", "OTP is invalid or expired"),
     NEW_PASSWORD_REQUIRED("NH011", "New password is required"),
-    NEW_PASSWORD_MUST_BE_DIFFERENT("NH012", "New password must be different from old password");
+    NEW_PASSWORD_MUST_BE_DIFFERENT("NH012", "New password must be different from old password"),
+
+    CHAT_SESSION_ID_REQUIRED("NH013", "Session ID is required"),
+    CHAT_USER_MESSAGE_REQUIRED("NH014", "User message is required"),
+    CHAT_USER_MESSAGE_TOO_LONG("NH015", "User message is too long"),
+    AI_SERVICE_UNAVAILABLE("NH016", "AI service is unavailable"),
+    AI_SERVICE_BAD_RESPONSE("NH017", "AI service returned an invalid response");
     private String code;
     private String message;
     NeuroHelpErrorMessage(String code, String message) {
