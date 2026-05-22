@@ -19,6 +19,13 @@ spring:
 server:
   port: 8082
 
+logging:
+  level:
+    root: INFO
+    com.project.neurohelp: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} [corr=%X{correlationId}] - %msg%n"
+
 neurohelp:
   ai-service:
     base-url: http://localhost:8000
