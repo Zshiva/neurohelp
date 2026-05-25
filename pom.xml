@@ -28,11 +28,19 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<lombok.version>1.18.36</lombok.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- Lombok is optional, but enables @Slf4j to standardize logging with minimal boilerplate -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>io.soabase.record-builder</groupId>
@@ -92,6 +100,11 @@
 						<groupId>io.soabase.record-builder</groupId>
 						<artifactId>record-builder-processor</artifactId>
 						<version>37</version>
+					</path>
+					<path>
+						<groupId>org.projectlombok</groupId>
+						<artifactId>lombok</artifactId>
+						<version>${lombok.version}</version>
 					</path>
 				</annotationProcessorPaths>
 			</configuration>
