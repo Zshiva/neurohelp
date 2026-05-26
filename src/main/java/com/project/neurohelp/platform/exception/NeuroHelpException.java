@@ -7,8 +7,17 @@ public class NeuroHelpException extends RuntimeException {
         super(errorMessage.getMessage());
         this.errorMessage = errorMessage;
     }
+
     public NeuroHelpErrorMessage getErrorMessage(){
         return errorMessage;
     }
-}
 
+    public String getCode(){
+        return errorMessage.getCode();
+    }
+
+    @Override
+    public String getMessage(){
+        return errorMessage.getMessage();
+    }
+}
