@@ -12,15 +12,20 @@ import com.project.neurohelp.usecases.chat.gateway.AiChatGateway;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
+import java.time.Duration;
 import java.util.List;
 
 @Component
 @Slf4j
 public class AiServiceClient implements AiChatGateway {
+
+	private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(10);
+	private static final Duration READ_TIMEOUT = Duration.ofSeconds(30);
 
 	private final RestClient restClient;
 
@@ -28,19 +33,30 @@ public class AiServiceClient implements AiChatGateway {
 			RestClient.Builder restClientBuilder,
 			@Value("${neurohelp.ai-service.base-url:http://localhost:8000}") String baseUrl
 	) {
-		this.restClient = restClientBuilder.baseUrl(baseUrl).build();
+		// Configure timeouts using JdkClientHttpRequestFactory
+		JdkClientHttpRequestFactory factory = new JdkClientHttpRequestFactory();
+		factory.setConnectTimeout((int) CONNECT_TIMEOUT.toMillis());
+		factory.setReadTimeout((int) READ_TIMEOUT.toMillis());
+
+		this.restClient = restClientBuilder
+				.baseUrl(baseUrl)
+				.requestFactory(factory)
+				.build();
 	}
 
 	@Override
 	public AssistantChatUseCaseResponse chat(AssistantChatUseCaseRequest request) {
 		try {
 			log.debug("Calling AI service /v1/chat: sessionId={}", request.sessionId());
+
+			// The request is already enriched with defaults from the use case,
+			// so no need to apply defaults here. Just forward it as-is.
 			var payload = AiChatRequestPayloadBuilder.builder()
 					.sessionId(request.sessionId())
 					.userMessage(request.userMessage())
-					.locale(request.locale() == null || request.locale().isBlank() ? "en" : request.locale())
-					.country(request.country() == null || request.country().isBlank() ? "NP" : request.country())
-					.mode(request.mode() == null || request.mode().isBlank() ? "default" : request.mode())
+					.locale(request.locale())  // Already enriched with default from use case
+					.country(request.country())  // Already enriched with default from use case
+					.mode(request.mode())  // Already enriched with default from use case
 					.build();
 
 			AiChatResponsePayload response = restClient.post()
@@ -72,8 +88,9 @@ public class AiServiceClient implements AiChatGateway {
 					.riskFlags(response.riskFlags() == null ? List.of() : response.riskFlags())
 					.citations(citations)
 					.build();
+
 		} catch (RestClientException ex) {
-			log.error("AI service call failed: sessionId={} error={}", request.sessionId(), ex.getMessage());
+			log.error("AI service call failed: sessionId={}, error={}", request.sessionId(), ex.getMessage(), ex);
 			throw new NeuroHelpException(NeuroHelpErrorMessage.AI_SERVICE_UNAVAILABLE);
 		}
 	}
