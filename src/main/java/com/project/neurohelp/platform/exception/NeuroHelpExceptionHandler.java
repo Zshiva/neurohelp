@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class NeuroHelpExceptionHandler {
+    
     @ExceptionHandler(NeuroHelpException.class)
     public ResponseEntity<?> handle(NeuroHelpException exception) {
-        return ResponseEntity.badRequest().body(RestResponse.error(exception.getMessage()));
+        return ResponseEntity.badRequest().body(
+            RestResponse.error(exception.getCode(), exception.getMessage())
+        );
     }
 }
