@@ -4,31 +4,40 @@ import io.soabase.recordbuilder.core.RecordBuilder;
 
 @RecordBuilder
 public record RestResponse<T>(String code, String message, T data) {
-        public static <T> RestResponse success(){
-            return RestResponseBuilder.builder()
-                    .code("0")
-                    .message("SUCCESS")
-                    .data(null)
-                    .build();
-        }
-    public static <T> RestResponse success(T data) {
-        return RestResponseBuilder.builder()
+
+    @SuppressWarnings("unchecked")
+    public static <T> RestResponse<T> success(){
+        return (RestResponse<T>) (Object) RestResponseBuilder.builder()
+                .code("0")
+                .message("SUCCESS")
+                .data(null)
+                .build();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> RestResponse<T> success(T data) {
+        return (RestResponse<T>) (Object) RestResponseBuilder.builder()
                 .code("0")
                 .message("SUCCESS")
                 .data(data)
                 .build();
     }
-    public static RestResponse error(String code, String message) {
-        return RestResponseBuilder.builder()
+
+    @SuppressWarnings("unchecked")
+    public static <T> RestResponse<T> error(String code, String message) {
+        return (RestResponse<T>) (Object) RestResponseBuilder.builder()
                 .code(code)
                 .message(message)
-                .build();
-    }
-    public static RestResponse error(String message) {
-        return RestResponseBuilder.builder()
-                .code("400")
-                .message(message)
+                .data(null)
                 .build();
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> RestResponse<T> error(String message) {
+        return (RestResponse<T>) (Object) RestResponseBuilder.builder()
+                .code("400")
+                .message(message)
+                .data(null)
+                .build();
+    }
 }
