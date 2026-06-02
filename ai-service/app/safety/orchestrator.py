@@ -2,12 +2,18 @@ from app.safety.crisis_detector import CrisisDetector
 from app.safety.injection_detector import InjectionDetector
 from app.safety.output_checker import OutputChecker
 from app.safety.policy import CRISIS_RESPONSE
+from app.safety.pii_scrubber import PIIScrubber
 
 class SafetyOrchestrator:
     def __init__(self):
         self.crisis_detector = CrisisDetector()
         self.injection_detector = InjectionDetector()
         self.output_checker = OutputChecker()
+        self.pii_scrubber = PIIScrubber()
+
+    def sanitize_input(self, text: str) -> str:
+        """Scrubs PII from the user input before it goes to the LLM."""
+        return self.pii_scrubber.anonymize(text)
 
     def check_input(self, text: str) -> dict:
         """Runs input stage checks and returns early-exit actions if needed."""
