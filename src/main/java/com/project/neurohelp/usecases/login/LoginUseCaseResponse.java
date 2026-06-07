@@ -5,6 +5,9 @@ import io.soabase.recordbuilder.core.RecordBuilder;
 
 @RecordBuilder
 public record LoginUseCaseResponse(
-        String message
+        String message,
+        String accessToken,
+        String tokenType,
+        long expiresInSeconds
 ) implements UseCaseResponse {
 }
