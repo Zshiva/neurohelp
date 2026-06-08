@@ -29,4 +29,8 @@ logging:
 neurohelp:
   ai-service:
     base-url: http://localhost:8000
+  jwt:
+    issuer: neurohelp
+    secret: ###
+    access-token-expiration-minutes: 60
 
