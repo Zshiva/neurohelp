@@ -20,7 +20,10 @@ public enum NeuroHelpErrorMessage {
     CHAT_USER_MESSAGE_REQUIRED("NH015", "User message is required"),
     CHAT_USER_MESSAGE_TOO_LONG("NH016", "User message is too long"),
     AI_SERVICE_UNAVAILABLE("NH017", "AI service is unavailable"),
-    AI_SERVICE_BAD_RESPONSE("NH018", "AI service returned an invalid response");
+    AI_SERVICE_BAD_RESPONSE("NH018", "AI service returned an invalid response"),
+
+    WELLNESS_SESSION_ID_REQUIRED("NH019", "Wellness session ID is required"),
+    WELLNESS_CHECK_IN_INVALID("NH020", "Wellness check-in data is invalid");
 
     private String code;
     private String message;
