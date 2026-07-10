@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
+import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.List;
 
@@ -33,10 +34,11 @@ public class AiServiceClient implements AiChatGateway {
 			RestClient.Builder restClientBuilder,
 			@Value("${neurohelp.ai-service.base-url:http://localhost:8000}") String baseUrl
 	) {
-		// Configure timeouts using JdkClientHttpRequestFactory
-		JdkClientHttpRequestFactory factory = new JdkClientHttpRequestFactory();
-		factory.setConnectTimeout((int) CONNECT_TIMEOUT.toMillis());
-		factory.setReadTimeout((int) READ_TIMEOUT.toMillis());
+		HttpClient httpClient = HttpClient.newBuilder()
+				.connectTimeout(CONNECT_TIMEOUT)
+				.build();
+		JdkClientHttpRequestFactory factory = new JdkClientHttpRequestFactory(httpClient);
+		factory.setReadTimeout(READ_TIMEOUT);
 
 		this.restClient = restClientBuilder
 				.baseUrl(baseUrl)
